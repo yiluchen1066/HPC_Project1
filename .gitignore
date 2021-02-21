@@ -1,0 +1,29 @@
+# vim swap file
+*.swp
+
+# some OS X rubbish
+.DS_Store
+
+## Core latex/pdflatex auxiliary files:
+*.aux
+*.lof
+*.log
+*.lot
+*.fls
+*.out
+*.toc
+*.fmt
+*.fot
+*.cb
+*.cb2
+.*.lb
+
+## Intermediate documents:
+*.dvi
+*.xdv
+
+# Object files
+*.o
+*.ko
+*.obj
+*.elf
