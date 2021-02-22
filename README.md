@@ -20,6 +20,9 @@
 
 **Mailing list**: <hpclab_fs21@sympa.ethz.ch>
 
+
+**Slack list**: http://hpc-lab-cse.slack.com/>
+
 **When** : Monday, 14:15 - 18:00
 
 **Where**:  over Zoom Meeting ID: 598 578 282 (https://ethz.zoom.us/j/598578282).
@@ -48,7 +51,7 @@ will be very useful for individual semester projects in other classes,
 where students might develop & deploy components of massively parallel
 numerical simulation software. GPU computing will not be covered in
 this course. It will be fully discussed in the annual CSCS-USI summer
-school on Effective High-Performance Computing & Data Analytics with
+school on Effective High-Performance Computing & Data Analytics withttps://gitlab.math.ethz.ch/karoger/hpclab_fs2021/snippetsh
 GPUs where we will focus on the effective exploitation of
 state-of-the-art hybrid High-Performance Computing (HPC) systems with
 a special focus on Data Analytics. The content of the summer school
@@ -63,8 +66,12 @@ Message passing programming model (MPI), Performance optimization and
 scientific libraries, interactive supercomputing, Python libraries,
 Introduction to Machine Learning, and GPU optimized framework. The
 Summer School will be held as an online course this year, from July 19
-to 30, 2021. More information is available at this Link.  ETH RW/CSE
-Students will be able to earn six ECT c
+to 30, 2021. More information is available at 
+this [Link](https://www.cscs.ch/events/upcoming-events/event-detail/cscs-usi-summer-school-2021).
+ETH RW/CSE
+Students will be able to earn six ECTS credit points for this [course 
+from USI](https://search.usi.ch/courses/35262228/effective-high-performance-computing-data-analytics-summer-school)
+(subject to exam).
 
 
 ## Lecture slides, projects and solutions
