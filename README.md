@@ -51,8 +51,9 @@ will be very useful for individual semester projects in other classes,
 where students might develop & deploy components of massively parallel
 numerical simulation software. GPU computing will not be covered in
 this course. It will be fully discussed in the annual CSCS-USI summer
-school on Effective High-Performance Computing & Data Analytics withttps://gitlab.math.ethz.ch/karoger/hpclab_fs2021/snippetsh
-GPUs where we will focus on the effective exploitation of
+school on 
+["Effective High-Performance Computing & Data Analytics with GPUs"](https://www.cscs.ch/events/upcoming-events/event-detail/cscs-usi-summer-school-2021),
+where we will focus on the effective exploitation of
 state-of-the-art hybrid High-Performance Computing (HPC) systems with
 a special focus on Data Analytics. The content of the summer school
 course is tailored for intermediate graduate students interested in
