@@ -21,7 +21,7 @@
 **Mailing list**: <hpclab_fs21@sympa.ethz.ch>
 
 
-**Slack list**: http://hpc-lab-cse.slack.com/>
+**Slack list**: http://hpc-lab-cse.slack.com
 
 **When** : Monday, 14:15 - 18:00
 
