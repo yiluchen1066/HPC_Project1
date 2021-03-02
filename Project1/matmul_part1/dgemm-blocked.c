@@ -23,21 +23,29 @@ void square_dgemm (int n, double* A, double* B, double* C)
 {
   // TODO: Implement the blocking optimization
   int s = 10; 
-    for (int i = 0; i < n/s; i = i+s)
+  int b = n/s+1; 
+  for (int i = 0; i < b; i++)
+  {
+    for (int j = 0; j < b; j++)
     {
-      for (int j = 0; j < n/s; j = j+s)
+      for (int si = 0; si < s && (si+s*i) < n; si++)
       {
-        double cij = C[i+j*n]; 
-        for (int k = 0; k < n/s; k = k+s)
+        for (int sj = 0; sj < s && (sj+j*s) < n; sj++)
         {
-          cij += A[i+k*n]*B[k+j*n]; 
-          C[i+j*n] = cij; 
+          double cij = C[s*i+si+n*(s*j+sj)]; 
+          for (int k = 0; k < b; k++)
+          {
+            for (int sk = 0; sk < s && (sk+s*k)< n; sk++)
+            {
+              cij += A[i*s+si+n*(s*k+sk)]*B[k*s+sk+n*(sj+s*j)]; 
+            }
+          }
+          C[s*i+si+n*(sj+s*j)]=cij; 
         }
       }
     }
   }
-
-
+}
 
 
 
