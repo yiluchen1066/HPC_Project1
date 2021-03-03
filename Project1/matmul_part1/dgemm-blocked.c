@@ -28,7 +28,29 @@ void square_dgemm (int n, double* A, double* B, double* C)
   {
     for (int j = 0; j < b; j++)
     {
-      for (int si = 0; si < s && (si+s*i) < n; si++)
+      for (int k = 0; k < b; k++)
+      {
+        for (int si = 0; si < s && (si+s*i) < n; si++)
+        {
+          for (int sj = 0; sj < s && (sj+s*j) < n; sj++)
+          {
+            double cij = C[s*i+si+n*(s*j+sj)]; 
+            for (int sk = 0; sk < s && (sk+s*k) < n ; sk++)
+            {
+              cij += A[i*s+si+n*(s*k+sk)]*B[k*s+sk+n*(sj+s*j)]; 
+            }
+            C[s*i+si+n*(sj+s*j)]=cij;   
+          }
+        } 
+      }
+    }
+  }
+}
+
+
+
+/* 
+for (int si = 0; si < s && (si+s*i) < n; si++)
       {
         for (int sj = 0; sj < s && (sj+j*s) < n; sj++)
         {
@@ -43,20 +65,6 @@ void square_dgemm (int n, double* A, double* B, double* C)
           C[s*i+si+n*(sj+s*j)]=cij; 
         }
       }
-    }
-  }
-}
-
-
-
-/* 
-void square_dgemm_blocked (int n, double* A, double* B, double* C){
-  for (int si = 1; si < 1025; si = si*2)
-  {
-    square_dgemm(n, si, A, B, C); 
-  }
-  
-}
 
 */ 
 
