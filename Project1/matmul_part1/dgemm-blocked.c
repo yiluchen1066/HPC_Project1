@@ -22,7 +22,7 @@ const char* dgemm_desc = "Blocked, three-loop dgemm.";
 void square_dgemm (int n, double* A, double* B, double* C)
 {
   // TODO: Implement the blocking optimization
-  int s = 10; 
+  int s = 32; 
   int b = n/s+1; 
   for (int i = 0; i < b; i++)
   {
