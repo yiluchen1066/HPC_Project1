@@ -56,7 +56,30 @@ int main (int argc, char **argv)
         {
             for (int j = 0; j < b; j++)
             {
-                for (int  si = 0; si < ss && (si+ss*i) < n; si++)
+                for (int k = 0; k < b; k++)
+                {
+                    for (int si = 0; si < ss && (si+ss*i) < n; si++)
+                    {
+                        for (int sj = 0; sj < ss && (sj+ss*j) < n; sj++)
+                        {
+                            double cij = C[ss*i+si+n*(sj+ss*j)]; 
+                            for (int sk = 0; sk < 0 && (sk+ss*k) < n; sk++)
+                            {
+                                cij += A[i*ss+si+n*(ss*k+sk)]*B[k*ss+sk+n*(sj+ss*j)]; 
+                            }
+                            C[ss*i+si+n*(sj+ss*j)]=cij;  
+                        }
+                    }    
+                }        
+            }    
+        }
+        seconds += wall_time(); 
+        printf("%e ", seconds);             
+    }
+}
+
+/*
+for (int  si = 0; si < ss && (si+ss*i) < n; si++)
                 {
                     for (int sj = 0; sj < ss && (sj+ss*j)<n ; sj++)
                     {
@@ -74,12 +97,6 @@ int main (int argc, char **argv)
                     }
                     
                 }
-                
-            }
-            
-        }
-        seconds += wall_time(); 
-        printf("%f ", seconds);      
-           
-    }
-}
+
+
+*/
