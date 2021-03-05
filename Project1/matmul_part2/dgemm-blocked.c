@@ -25,10 +25,12 @@ void square_dgemm (int n, double* A, double* B, double* C)
 {
   int s = 8; 
   int b = n/s+1; 
+  int chunk = 10; 
   /*int tid, nthreads, chunk; */
   /*chunk = 30; */
 
  /*#pragma omp parallel for default(none) shared (A, B, C, n, s, b)*/
+ #pragma omp for schedule (static, chunk)
   for (int i = 0; i < b; i++)
   {
     for (int j = 0; j < b; j++)
