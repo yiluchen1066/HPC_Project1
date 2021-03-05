@@ -25,11 +25,14 @@ void square_dgemm (int n, double* A, double* B, double* C)
 {
   int s = 8; 
   int b = n/s+1; 
-  int tid, nthreads, chunk; 
-  chunk = 30; 
+  int tid;
+  /*int tid, nthreads, chunk; */
+  /*chunk = 30; */
 
- #pragma omp parallel for default(none) shared (A, B, C, n, nthreads, s, b, chunk)
-  for (int i = 0; i < b; i++)
+ #pragma omp parallel for default(none) shared (A, B, C, n, s, b)
+ {
+   tid = omp_get_thread_num(); 
+   for (int i = 0; i < b; i++)
   {
     for (int j = 0; j < b; j++)
     {
@@ -50,5 +53,8 @@ void square_dgemm (int n, double* A, double* B, double* C)
       }  
     } 
   }
+
+ }
+  
 }
 
