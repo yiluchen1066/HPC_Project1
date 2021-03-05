@@ -25,7 +25,7 @@ void square_dgemm (int n, double* A, double* B, double* C)
 {
   int s = 8; 
   int b = n/s+1; 
-  int chunk = 10; 
+  int chunk = 2; 
   /*int tid, nthreads, chunk; */
   /*chunk = 30; */
 
