@@ -13,7 +13,9 @@ LDLIBS = -lrt -Wl,--start-group $(MKLROOT)/lib/intel64/libmkl_intel_lp64.a $(MKL
 
 */
 
-const char* dgemm_desc = "Naive, three-loop dgemm.";
+#include <omp.h>
+
+const char* dgemm_desc = "Blocked-openmp,  three-loop dgemm.";
 
 /* This routine performs a dgemm operation
  *  C := C + A * B
@@ -21,18 +23,32 @@ const char* dgemm_desc = "Naive, three-loop dgemm.";
  * On exit, A and B maintain their input values. */    
 void square_dgemm (int n, double* A, double* B, double* C)
 {
-  // TODO: Copy the code you implemented in part1
-  //       And parallelize it with OpenMP
+  int s = 8; 
+  int b = n/s+1; 
+  int tid, nthreads, chunk; 
+  chunk = 30; 
 
-  /* For each row i of A */
-  for (int i = 0; i < n; ++i)
-    /* For each column j of B */
-    for (int j = 0; j < n; ++j) 
+ #pragma omp parallel for default(none) shared (A, B, C, n, nthreads, s, b, chunk)
+  for (int i = 0; i < b; i++)
+  {
+    for (int j = 0; j < b; j++)
     {
-      /* Compute C(i,j) */
-      double cij = C[i+j*n];
-      for( int k = 0; k < n; k++ )
-	cij += A[i+k*n] * B[k+j*n];
-      C[i+j*n] = cij;
-    }
+      for (int k = 0; k < b; k++)
+      {
+        for (int si = 0; si < s && (si+s*i) < n; si++)
+        {
+          for (int sj = 0; sj < s && (sj+j*s) < n; sj++)
+          {
+            double cij = C[s*i+si+n*(s*j+sj)];
+            for (int sk = 0; sk < s && (k*s+sk) < n; sk++)
+            {
+              cij += A[i*s+si+n*(s*k+sk)]*B[k*s+sk+n*(sj+s*j)]; 
+            }
+            C[s*i+si+n*(sj+s*j)]= cij; 
+          }  
+        } 
+      }  
+    } 
+  }
 }
+
