@@ -22,10 +22,19 @@ const char* dgemm_desc = "Blocked, three-loop dgemm.";
  *  C := C + A * B
  * where A, B, and C are lda-by-lda matrices stored in column-major format.
  * On exit, A and B maintain their input values. */    
+inline double hsum_double_avx(__m256d v) {
+    __m128d vlow  = _mm256_castpd256_pd128(v);
+    __m128d vhigh = _mm256_extractf128_pd(v, 1); // high 128
+            vlow  = _mm_add_pd(vlow, vhigh);     // reduce down to 128
+
+    __m128d high64 = _mm_unpackhi_pd(vlow, vlow);
+    return  _mm_cvtsd_f64(_mm_add_sd(vlow, high64));  // reduce to scalar
+}
+
 void square_dgemm(int n, double* A, double* B, double* C)
 {
   // TODO: Implement the blocking optimization
-  __m256d ymm0, ymm1; 
+  __m256d ymm0, ymm1;
   __m256i zero = _mm256_setzero_si256();
   __m256d zerod = _mm256_setzero_pd();
   __m256i mask1 = _mm256_setr_epi32(1,1,0,0,0,0,0,0);
@@ -45,7 +54,7 @@ void square_dgemm(int n, double* A, double* B, double* C)
     {
       for (int k = 0; k < n; k = k+s)
       {
-        int limi = i+s;
+        int limi = i+s; 
         int limj = j+s; 
         int limk = k+s; 
         limi = limi < n ? limi:n; 
@@ -78,6 +87,7 @@ void square_dgemm(int n, double* A, double* B, double* C)
     }
   }
 }
+
 
 
 
