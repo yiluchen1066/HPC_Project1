@@ -11,6 +11,9 @@ if command -v module 1>/dev/null 2>&1; then
    module load mkl
 fi
 
+lscpu
+cat /proc/meminfo
+
 export OMP_NUM_THREADS=10
 export MKL_NUM_THREADS=10
 
