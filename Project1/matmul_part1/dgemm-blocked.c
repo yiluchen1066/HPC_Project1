@@ -42,7 +42,7 @@ void square_dgemm(int n, double* A, double* B, double* C)
   __m256i mask3 = _mm256_setr_epi32(1,1,1,1,1,1,0,0);
   __m256i masks[4] = {zero, mask1, mask2, mask3};
   __m128i idx = _mm_setr_epi32(0, n, 2*n, 3*n);
-  int s = 8; 
+  int s = 40; 
   int res = (n - (n/s)*s)%4;
   __m256i mask = (masks[res] != mask);
   __m256d maskd =  _mm256_castsi256_pd(mask);
