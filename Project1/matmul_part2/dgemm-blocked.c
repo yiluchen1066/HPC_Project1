@@ -34,7 +34,6 @@ inline double hsum_double_avx(__m256d v) {
 void square_dgemm(int n, double* A, double* B, double* C)
 {
   // TODO: Implement the blocking optimization
-  __m256d ymm0, ymm1;
   __m256i zero = _mm256_setzero_si256();
   __m256d zerod = _mm256_setzero_pd();
   __m256i mask1 = _mm256_setr_epi32(1,1,0,0,0,0,0,0);
@@ -46,13 +45,14 @@ void square_dgemm(int n, double* A, double* B, double* C)
   int res = (n - (n/s)*s)%4;
   __m256i mask = (masks[res] != mask);
   __m256d maskd =  _mm256_castsi256_pd(mask);
-  #pragma omp parallel for schedule(dynamic) default(none) shared(n, A, B, C, masks, idx, s, res, mask, maskd) 
+  #pragma omp parallel for schedule(dynamic) default(none) shared(n, A, B, C, masks, idx, s, res, mask, maskd, zero, zerod) 
   for (int i = 0; i < n; i = i+s)
   {
     for (int j = 0; j < n; j = j+s)
     {
       for (int k = 0; k < n; k = k+s)
       {
+        __m256 ymm0, ymm1; 
         int limi = i+s; 
         int limj = j+s; 
         int limk = k+s; 
