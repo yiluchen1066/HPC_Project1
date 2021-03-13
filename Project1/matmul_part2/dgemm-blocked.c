@@ -61,12 +61,12 @@ void square_dgemm(int n, double* A, double* B, double* C)
         limk = limk < n ? limk:n; 
         for (int sj = j; sj < limj; sj++)
         {
-          #pragma GCC unroll 4
+          //#pragma GCC unroll 4
           for (int si = i; si < limi; si++)
           {
             double cij = C[si+sj*n]; 
             int ssk; 
-            #pragma GCC unroll 2
+            //#pragma GCC unroll 2
             for (ssk = 0; ssk+4 < limk-k+1; ssk = ssk+4)
             {
               ymm0 = _mm256_i32gather_pd(&A[si+n*(k+ssk)], idx, 8);
