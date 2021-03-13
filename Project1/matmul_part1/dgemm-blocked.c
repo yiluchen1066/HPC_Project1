@@ -43,11 +43,10 @@ void square_dgemm(int n, double* A, double* B, double* C)
   __m256i masks[4] = {zero, mask1, mask2, mask3};
   __m128i idx = _mm_setr_epi32(0, n, 2*n, 3*n);
   int s = 8; 
-  int b = n/s+1; 
   int res = (n - (n/s)*s)%4;
-  __m256i mask = masks[res];
+  __m256i mask = (masks[res] != mask);
   __m256d maskd =  _mm256_castsi256_pd(mask);
-  #pragma omp parallel for
+  //#pragma omp parallel for
   for (int i = 0; i < n; i = i+s)
   {
     for (int j = 0; j < n; j = j+s)
@@ -60,23 +59,23 @@ void square_dgemm(int n, double* A, double* B, double* C)
         limi = limi < n ? limi:n; 
         limj = limj < n ? limj:n; 
         limk = limk < n ? limk:n; 
-        for (int si = i; si < limi; si++)
+        for (int sj = j; sj < limj; sj++)
         {
-          #pragma GCC unroll 4
-          for (int sj = j; sj < limj; sj++)
+          //#pragma GCC unroll 4
+          for (int si = i; si < limi; si++)
           {
             double cij = C[si+sj*n]; 
             int ssk; 
-            #pragma GCC unroll 2
-            for (ssk = 0; ssk+4 < limk-k; ssk = ssk+4)
+            //#pragma GCC unroll 2
+            for (ssk = 0; ssk+4 < limk-k+1; ssk = ssk+4)
             {
-              ymm0 = _mm256_i32gather_pd(&A[si+n*(k+ssk)], idx, 1);
+              ymm0 = _mm256_i32gather_pd(&A[si+n*(k+ssk)], idx, 8);
               ymm1 = _mm256_loadu_pd(&B[ssk+k+n*sj]); 
               //ymm1 = _mm256_mul_pd(ymm0, ymm1); 
               cij += hsum_double_avx(_mm256_mul_pd(ymm0, ymm1));
             }
             if (k+ssk < limk) {
-                ymm0 = _mm256_mask_i32gather_pd(zerod, &A[si+n*(k+ssk)], idx, maskd, 1);
+                ymm0 = _mm256_mask_i32gather_pd(zerod, &A[si+n*(k+ssk)], idx, maskd, 8);
                 ymm1 = _mm256_maskload_pd(&B[ssk+k+n*sj], mask);
                 cij += hsum_double_avx(_mm256_mul_pd(ymm0, ymm1));
             }
@@ -87,7 +86,6 @@ void square_dgemm(int n, double* A, double* B, double* C)
     }
   }
 }
-
 
 
 
