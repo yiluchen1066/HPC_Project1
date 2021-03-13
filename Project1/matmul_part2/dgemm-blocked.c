@@ -52,7 +52,7 @@ void square_dgemm(int n, double* A, double* B, double* C)
     {
       for (int k = 0; k < n; k = k+s)
       {
-        __m256 ymm0, ymm1; 
+        __m256d ymm0, ymm1; 
         int limi = i+s; 
         int limj = j+s; 
         int limk = k+s; 
