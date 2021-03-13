@@ -8,7 +8,7 @@
 
 # load modules
 if command -v module 1>/dev/null 2>&1; then
-   module load gcc mkl
+   module load mkl
 fi
 
 export OMP_NUM_THREADS=10
