@@ -11,6 +11,10 @@ if command -v module 1>/dev/null 2>&1; then
    module load gcc
 fi
 
+ls cpu
+cat /proc/cpuinfo
+cat /proc/meminfo
+
 ./membench | sed -e '/:/	s//: /g' -e '/  */	s//	/g' | cut -f2,4,6 > generic.xxx && sed -e '/sarlacc/ s//generic/' gnuplot.template > generic.gp
 
 gnuplot generic.gp
