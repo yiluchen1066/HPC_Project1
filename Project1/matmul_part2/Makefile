@@ -2,7 +2,7 @@
 # of the default vendor-tuned DGEMM. This is done in benchmark-blas.
 
 CC = gcc
-OPT = -O2
+OPT = -O2 -march=native
 CFLAGS = -Wall -std=gnu99 $(OPT) -fopenmp
 LDFLAGS = -Wall
 # librt is needed for clock_gettime
