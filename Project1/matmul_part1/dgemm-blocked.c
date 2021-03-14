@@ -47,9 +47,9 @@ void square_dgemm(int n, double* A, double* B, double* C)
   __m256i mask = (masks[res] != mask);
   __m256d maskd =  _mm256_castsi256_pd(mask);
   //#pragma omp parallel for
-  for (int k = 0; k < n; k = k+s)
+  for (int j = 0; j < n; j = j+s)
   {
-    for (int j = 0; j < n; j = j+s)
+    for (int k = 0; k < n; k = k+s)
     {
       for (int i = 0; i < n; i = i+s)
       {
