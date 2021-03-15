@@ -106,7 +106,6 @@ void square_dgemm_unroll(int n, double* A, double* B, double* C)
 void square_dgemm(int n, double* A, double* B, double* C)
 {
   // TODO: Implement the blocking optimization
-  __m256d ymm0, ymm1;
   __m256i zero = _mm256_setzero_si256();
   __m256d zerod = _mm256_setzero_pd();
   __m256i mask1 = _mm256_setr_epi32(1,1,0,0,0,0,0,0);
@@ -118,7 +117,7 @@ void square_dgemm(int n, double* A, double* B, double* C)
   int res = (n - (n/s)*s)%4;
   __m256i mask = (masks[res] != zero);
   __m256d maskd =  _mm256_castsi256_pd(mask);
-  #pragma omp parallel for schedule(dynamic) 
+  #pragma omp parallel for schedule(static) default(none) shared(A, B, C) firstprivate(n, zero, zerod, idx, res, mask, maskd)
   for (int j = 0; j < n; j = j+s)
   {
     int limj = j+s; 
@@ -193,6 +192,7 @@ void square_dgemm(int n, double* A, double* B, double* C)
         {
           for (int si = i; si < limi; si++)
           {
+            __m256d ymm0, ymm1;
             double cij = C[si+sj*n]; 
             int ssk; 
             for (ssk = 0; ssk+4 < limk-k+1; ssk = ssk+4)
